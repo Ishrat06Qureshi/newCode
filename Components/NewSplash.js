@@ -1,6 +1,7 @@
 import React , {Component }from 'react';
 import { Text, View, StyleSheet, ImageBackground , Image   , Animated , Easing  } from 'react-native';
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import { AsyncStorage } from "react-native";
 class Splash  extends Component {
 
    constructor( props ) {
@@ -8,12 +9,23 @@ class Splash  extends Component {
     this.RotateValueHolder = new Animated.Value(0);
    }
 
+
+   bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+
+    // This will switch to the App screen or Auth screen and this loading
+    // screen will be unmounted and thrown away.
+    this.props.navigation.navigate(userToken ? 'Home' : 'WelcomeStack');
+  };
+
    componentDidMount () {
 
     this.StartImageRotateFunction();
+    this.bootstrapAsync()
    setTimeout( () => {
      // this.props.navigation.navigate("Welcome")
-     this.props.navigation.navigate(this.props.token ? 'Home' : "WelcomeStack");
+    //  this.props.navigation.navigate(this.props.token ? 'Home' : "WelcomeStack");
+    this.StartImageRotateFunction()
    } , 4500)
  }
    StartImageRotateFunction() {

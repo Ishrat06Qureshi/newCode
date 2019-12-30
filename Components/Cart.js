@@ -1,6 +1,6 @@
 //Important
 import React , { Component } from "react";
-import { View , Text  , Alert , ScrollView , Keyboard , TouchableOpacity   } from "react-native";
+import { View , Text  , Alert , ScrollView , Keyboard , TouchableOpacity , Alert   } from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import { Heading_style , Red_Button , White_Text , 
@@ -12,7 +12,8 @@ import { Heading_style , Red_Button , White_Text ,
    disable_Text_Style,
    centerBoldText
   } from "../Styles";
-import { Card , Spinner } from "native-base"
+import { Card , Spinner } from "native-base";
+
 import Button from "./Button";
 import validation_functions from "../utils/validation_functions"; 
 import { NavigationEvents , StackActions, NavigationActions } from 'react-navigation';
@@ -115,8 +116,9 @@ class Cart extends Component {
         closeLoading: this.closeLoading
        
       }
+       OrderSave(data)
      
-       OrderSave( data )
+      
     }
 
 

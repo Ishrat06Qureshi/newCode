@@ -4,6 +4,7 @@ import { View , Text  , Alert ,
      TouchableOpacity , KeyboardAvoidingView    } from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
+import NetInfo from '@react-native-community/netinfo';
 import { Heading_style , Red_Button , White_Text , 
   Red_Square_button,
    White_Square_button,
@@ -117,7 +118,14 @@ class Cart extends Component {
        
       }
      
-       OrderSave( data )
+      NetInfo.fetch().then(state => {
+        if(state.isConnected) {
+          OrderSave( data )
+        }
+        else {
+            Alert.alert("Network Error" , "sorry, there is no network connection avaliable Please conncet to any network")
+        }
+      } )
     }
 
 

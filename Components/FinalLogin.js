@@ -1,8 +1,11 @@
 import  React , {Component} from 'react';
-import {View,  Image , ScrollView  , Text, Keyboard , TouchableOpacity , KeyboardAvoidingView   } from 'react-native';
+import {View,  Image , ScrollView  , 
+  Text, Keyboard , TouchableOpacity ,
+   KeyboardAvoidingView , Alert   } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import { Spinner } from "native-base"
 
-import LoginMiddleware from "../Middleware/LoginMiddleware";
+import LoginMiddleware from "../Middleware/newLoginMiddleware";
 import { connect } from "react-redux";
 import Input from "./Input"
 
@@ -15,19 +18,30 @@ import { NavigationEvents } from 'react-navigation';
 import { disable_Button_Style ,
   disable_Text_Style , 
   enable_Button_Style ,
-   enable_Text_Style } from "../Styles"   
+   enable_Text_Style } from "../Styles"  
+   
+   
+  
 const initialState = {
       email:"",
       password:"",
-      isLoading:false
+      isLoading:false,
+      
 }
 
 
  class Finalogin extends Component {
-  constructor (props){
+  constructor (props){ 
     super(props)
     this.state = {...initialState}
   }
+    testAlert = ( err) =>{
+      alert(`${err}`)
+      // console.log(err)
+    }
+
+
+  
   
    navigateToHome = () => {
      this.props.navigation.navigate("Home")
@@ -47,12 +61,25 @@ const initialState = {
      Keyboard.dismiss()
       const { token , Login ,error }  = this.props 
        const { email , password }  =this.state
-       
+      //  NetInfo.fetch().then(state => {
+      //     if(state.isConnected) {
+      //        Login({email , password , 
+      //        navigateToHome:this.navigateToHome ,
+      //         OnLoader:this.OnLoader ,
+      //         ResetState:this.ResetState, 
+      //         OnLoaderOff: this.OnLoaderOff} ) 
+      //    }
+      //    else {
+      //      Alert.alert("Internet connection is not available")
+      //    }
+      // });
       Login({email , password , 
         navigateToHome:this.navigateToHome ,
          OnLoader:this.OnLoader ,
           ResetState:this.ResetState, 
-          OnLoaderOff: this.OnLoaderOff} ) 
+          OnLoaderOff: this.OnLoaderOff ,
+          testAlert:this.testAlert
+        } ) 
        }
 
 
