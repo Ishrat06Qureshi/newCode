@@ -49,7 +49,9 @@ class Cart extends Component {
    state = {
      ...initialState,
      isModalVisible: false,
-     isLoading:true 
+     isLoading:true,
+     //used
+     isErrorOccured:false
     
     }
 
@@ -67,7 +69,11 @@ class Cart extends Component {
     closeLoading = () => {
       this.setState(({ isLoading: false }))
     }
-
+       //used
+    checkError = () => {
+      this.setState(({ isErrorOccured  : true }))
+    }
+    // used over 
    handleInputChange = ( fieldName , value) => {
     this.setState(({ [fieldName] : value}))
     validation_functions.updateValidators( fieldName , value )
@@ -114,7 +120,9 @@ class Cart extends Component {
         orderConformation:this.orderConformation,
         additionalComments:comment,
         openModal:this.openModal,
-        closeLoading: this.closeLoading
+        closeLoading: this.closeLoading,
+        checkError : this.checkError
+
        
       }
      
@@ -165,6 +173,7 @@ class Cart extends Component {
     phoneNumber,
     isModalVisible,
     isLoading,
+    isErrorOccured
      
   } = this.state
      const disable = validation_functions.isFormValid(["lineOne","city","province","phoneNumber" ])
@@ -312,6 +321,7 @@ class Cart extends Component {
                       <Card style = {{ height:200 , justifyContent:"center" , alignItems:"center" , width:"80%" }}>
                         <Text style = {Heading_style}> Order Confirmation </Text>
                         {isLoading ? <Spinner color = "red"/> :
+                        isErrorOccured ? <Text> Sorry ! something went wrong </Text> :
                         <View style = {{ justifyContent:"center" , alignItems:"center" , marginHorizontal:10}}>
                          <Text style = {{ color:"#696969"}}>
                           Congratulations! your order have been place Fastening House Atlantic will contact you shortly</Text>

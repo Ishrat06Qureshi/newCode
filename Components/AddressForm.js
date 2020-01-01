@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ScrollView,
-  View, KeyboardAvoidingView , Image , TouchableOpacity , Text} from 'react-native';
+  View, KeyboardAvoidingView ,
+   Image , TouchableOpacity , Text , Alert} from 'react-native';
 import axios from "axios";
 
 
@@ -11,7 +12,8 @@ import  Input from "./Input";
 import Button from "./Button"
 import { disable_Button_Style , disable_Text_Style , enable_Button_Style , enable_Text_Style} from "../Styles"
 import validation_functions from "../utils/validation_functions"; 
-import { connect } from "react-redux"
+import { connect } from "react-redux";
+import NetInfo from '@react-native-community/netinfo';
 import SignupMiddleware from "../Middleware/SignupMiddleware"
 import SaveUserInfo from "../Actions/UserInfoAction";
 import { GreyText } from "../Styles"
@@ -23,7 +25,10 @@ class AddressForm extends React.Component {
       postalCode:this.props.postalCode,
       loading:false
     }
-
+    testAlert = ( err) =>{
+      alert(`${err}`)
+      // console.log(err)
+    }
 
 LoaderOn = () => {
   this.setState({
@@ -71,11 +76,19 @@ LoaderOff = () => {
          navigateToEmailForm:this.navigateToEmailForm,
          navigateToCodeScreen:this.navigateToCodeScreen,
          LoaderOn:this.LoaderOn,
-         LoaderOff : this.LoaderOff
+         LoaderOff : this.LoaderOff,
+         testAlert : this.testAlert
        }
        
-    
-       this.props.LoadSignUpData(SignupData)
+       NetInfo.fetch().then(state => {
+        if(state.isConnected) {
+          this.props.LoadSignUpData(SignupData)
+       }
+       else {
+         Alert.alert("Internet connection is not available")
+       }
+    });
+      
        
   }
 

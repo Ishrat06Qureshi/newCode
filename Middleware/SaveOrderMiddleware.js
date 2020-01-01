@@ -4,7 +4,7 @@ import OrderHistory from "../Actions/OrderHistory";
 import axios from "axios";
 import DeleteItem from "../Actions/EmptyOrder"
 const SaveOrderMiddleware = ( data ) => {
-  
+    axios.defaults.timeout = 20000
     const { 
         createdBy , 
         shippingAddress,
@@ -12,7 +12,8 @@ const SaveOrderMiddleware = ( data ) => {
         orderConformation , 
         additionalComments ,
         openModal,
-        closeLoading } = data
+        closeLoading ,
+        checkError } = data
         console.log("modal value inside middleware" , openModal)
         return ( dispatch ) => {
                           openModal()
@@ -23,7 +24,8 @@ const SaveOrderMiddleware = ( data ) => {
                             dispatch(DeleteItem())
                             closeLoading()
                         }).catch ( err => {
-                            console.log( err.response)
+                             closeLoading()
+                             checkError()
                             // dispatch( SaveError( {message:err.response.data.message}))
                     
                         })

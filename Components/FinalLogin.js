@@ -61,25 +61,27 @@ const initialState = {
      Keyboard.dismiss()
       const { token , Login ,error }  = this.props 
        const { email , password }  =this.state
-      //  NetInfo.fetch().then(state => {
-      //     if(state.isConnected) {
-      //        Login({email , password , 
-      //        navigateToHome:this.navigateToHome ,
-      //         OnLoader:this.OnLoader ,
-      //         ResetState:this.ResetState, 
-      //         OnLoaderOff: this.OnLoaderOff} ) 
-      //    }
-      //    else {
-      //      Alert.alert("Internet connection is not available")
-      //    }
-      // });
-      Login({email , password , 
-        navigateToHome:this.navigateToHome ,
-         OnLoader:this.OnLoader ,
-          ResetState:this.ResetState, 
-          OnLoaderOff: this.OnLoaderOff ,
-          testAlert:this.testAlert
-        } ) 
+       NetInfo.fetch().then(state => {
+          if(state.isConnected) {
+            Login({email , password , 
+              navigateToHome:this.navigateToHome ,
+               OnLoader:this.OnLoader ,
+                ResetState:this.ResetState, 
+                OnLoaderOff: this.OnLoaderOff ,
+                testAlert:this.testAlert
+              } ) 
+         }
+         else {
+           Alert.alert("Internet connection is not available")
+         }
+      });
+      // Login({email , password , 
+      //   navigateToHome:this.navigateToHome ,
+      //    OnLoader:this.OnLoader ,
+      //     ResetState:this.ResetState, 
+      //     OnLoaderOff: this.OnLoaderOff ,
+      //     testAlert:this.testAlert
+      //   } ) 
        }
 
 

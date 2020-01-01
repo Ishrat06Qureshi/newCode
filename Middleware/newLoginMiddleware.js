@@ -8,11 +8,14 @@ import { AsyncStorage } from "react-native";
 
 signInAsync = async ( token , dispatch  , ResetState  ,
      navigateToHome , response) => {
-    await AsyncStorage.setItem('userToken', token);
+     //changed  start
+    await AsyncStorage.setItem('userData', JSON.stringify(response.data) );
+    
     dispatch( TokenAction.TOKEN_SAVE_ACTION(response.data.token))
     dispatch( UserDataAction.SAVE_USER_DATA_ACTION( response.data))
     ResetState()
     navigateToHome()
+     //changed  close
   };
 
 const LoginMiddleware = ( data ) => {

@@ -2,6 +2,7 @@ import React , {Component }from 'react';
 import { Text, View, StyleSheet, ImageBackground , Image   , Animated , Easing  } from 'react-native';
 import { connect } from "react-redux";
 import { AsyncStorage } from "react-native";
+import UserDataAction from "../Actions/UserDataAction";
 class Splash  extends Component {
 
    constructor( props ) {
@@ -11,11 +12,15 @@ class Splash  extends Component {
 
 
    bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-
+     //changed data
+    const userData = await AsyncStorage.getItem('userData');
+    const ParsedData = JSON.parse(userData)
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'Home' : 'WelcomeStack');
+    console.log("parsed Data" , ParsedData)
+    ParsedData ? this.props.saveData(ParsedData) : null
+     
+    this.props.navigation.navigate(ParsedData ? ParsedData.token ? 'Home' : 'WelcomeStack' : "WelcomeStack");
   };
 
    componentDidMount () {
@@ -117,4 +122,10 @@ const mapStateToProps = ( state ) => {
   })
 }
 
-export default connect(mapStateToProps , null)(Splash)
+const mapDispatchToProps = ( dispatch ) => {
+   return ( {
+     saveData : ( data ) => {  dispatch( UserDataAction.SAVE_USER_DATA_ACTION( data)) }
+   })
+}
+
+export default connect(mapStateToProps , mapDispatchToProps)(Splash)
