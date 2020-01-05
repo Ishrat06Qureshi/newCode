@@ -1,4 +1,5 @@
 import  React , { Component } from "react";
+import { NavigationEvents } from 'react-navigation';
 import { View , Text , Image } from "react-native";
 import { Card, CardItem , Button , Icon   } from 'native-base';
 import { Image_styles , bold_Text } from "../Styles";
@@ -8,24 +9,36 @@ import { connect } from "react-redux";
 import removeItem from "../Actions/removeCartItem"
 class CartItems extends Component {
   state = {
-    isModalVisible: false
+    isModalVisible: false,
+    quantity:this.props.item.quantity
   };
 
 closeModal = () => {
     this.setState(({ isModalVisible:false}))
   }
   openModal = () => {
-    console.log("open Modal")
+
     this.setState(({ isModalVisible:true}))
    
   }
+  SettingState = () => {
+    this.setState(({
+      quantity: this.props.item.quantity
+    }))
+  }
     render() {
 
-        const  { productCode , description , image, UOM , quantity } = this.props.item
+        const  { productCode , description , image, UOM  } = this.props.item
+        const { quantity } = this.state
+         console.log("quantity inside the cart item" , quantity)
         const { isModalVisible} = this.state
         return( <View>
              <Card>
               <View style ={{ flexDirection:"row" }}>
+              <NavigationEvents
+    
+    onWillFocus={() => this.SettingState()}
+    />
                 <CardItem>
                   
                                      <Image  

@@ -18,6 +18,9 @@ import SaveUserInfo from "../Actions/UserInfoAction";
 import { connect } from "react-redux";
 import { GreyText } from "../Styles"
 
+
+
+
 class EmailForm extends React.Component {
     state = {
       customerNumber: this.props.customerNumber,
@@ -26,9 +29,19 @@ class EmailForm extends React.Component {
       
     }
      
+ SettingState = () => {
+  this.setState(({
+    customerNumber: this.props.customerNumber,
+    email:this.props.email,
+    password:this.props.password,
+   }))
+ }
  handleInputChange = ( fieldName , value) => {
    console.log(fieldName , value)
   this.setState(({ [fieldName] : value}))
+  // this.props.saveData({
+  //   fieldName , 
+  //   value})
   validation_functions.updateValidators( fieldName , value )}
 
 
@@ -44,47 +57,56 @@ class EmailForm extends React.Component {
 
   }
 
-  post = () => {
-    const {    email,
-      customerNumber,
-      password,
-      companyName,
-       } = this.state
-     this.setState(({ isLoading: true , StepOne:true , }) , () =>
+  // post = () => {
+  //   const {    email,
+  //     customerNumber,
+  //     password,
+  //     companyName,
+  //      } = this.props
+  //    this.setState(({ isLoading: true , StepOne:true , }) , () =>
 
-     {
-      axios.post("http://13.59.64.244:3000/api/register" , 
-      { email , customerNumber , password , companyName , officeAddress:`${lineOne} , ${city} , ${province} , ${postalCode}`  , 
-      contactPersonName , phoneNumber  })
-      .then(( response ) =>  
-      {  console.log(response)
-        if(response.data.message === "Done") {
-          validation_functions.resetValidators()
-          this.props.navigation.navigate("CodeVerify")
-        }
-      } )
-       .catch ( err =>
-        {
-          validation_functions.resetValidators()
-          return( this.setState(({
-            isLoading: false , 
-            serverError: err.response.data.message ,
-            email:"",
-            customerNumber:"",
-            password:"",
-            companyName:"",
-            officeAddress:"",
-            contactPersonName:"",
-            phoneNumber:"",
-            lineOne:"",
-            lineTwo:"",
-            city:"",
-            province:"",
-            postalCode:""})) )
-        })
-     })
+  //    {
+  //     axios.post("http://13.59.64.244:3000/api/register" , 
+  //     { email , customerNumber , password , companyName , officeAddress:`${lineOne} , ${city} , ${province} , ${postalCode}`  , 
+  //     contactPersonName , phoneNumber  })
+  //     .then(( response ) =>  
+  //     {  console.log(response)
+  //       if(response.data.message === "Done") {
+  //         validation_functions.resetValidators()
+  //         this.props.navigation.navigate("CodeVerify")
+  //       }
+  //     } )
+  //      .catch ( err =>
+  //       {
+  //         validation_functions.resetValidators()
+  //         return( this.setState(({
+  //           isLoading: false , 
+  //           serverError: err.response.data.message ,
+  //           email:"",
+  //           customerNumber:"",
+  //           password:"",
+  //           companyName:"",
+  //           officeAddress:"",
+  //           contactPersonName:"",
+  //           phoneNumber:"",
+  //           lineOne:"",
+  //           lineTwo:"",
+  //           city:"",
+  //           province:"",
+  //           postalCode:""})) )
+  //       })
+  //    })
      
-    }
+  //   }
+
+    // componentWillReceiveProps = ( props ) => {
+    //   console.log("props inside the email form " , props  )
+    //    this.setState(({
+    //     customerNumber: this.props.customerNumber,
+    //     email:this.props.email,
+    //     password:this.props.password,
+    //    }))
+    // }
 render() {
     const {  
         email,
@@ -97,6 +119,10 @@ render() {
      const disable = validation_functions.isFormValid(["email","password" ])
     return ( <KeyboardAvoidingView 
     style = {{ flex:1, justifyContent:"center" , alignItems:"center"}} behavior = "padding">
+       <NavigationEvents
+    
+    onWillFocus={() => this.SettingState()}
+    />
            <Image
                     source = {require("../assets/fastening.png")}
                     style = {{

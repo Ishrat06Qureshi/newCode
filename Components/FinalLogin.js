@@ -4,8 +4,8 @@ import {View,  Image , ScrollView  ,
    KeyboardAvoidingView , Alert   } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { Spinner } from "native-base"
-
-import LoginMiddleware from "../Middleware/newLoginMiddleware";
+import { NavigationEvents } from 'react-navigation';
+;
 import { connect } from "react-redux";
 import Input from "./Input"
 
@@ -13,7 +13,8 @@ import Button from "./Button";
 
 // import Loading from "../Redux/Actions/LoadingAction"
 import validation_functions from "../utils/validation_functions"; 
-import { NavigationEvents } from 'react-navigation';
+import ClearUserInfo from "../Actions/clearData"
+import LoginMiddleware from "../Middleware/newLoginMiddleware"
 
 import { disable_Button_Style ,
   disable_Text_Style , 
@@ -51,6 +52,7 @@ const initialState = {
    }
    ResetState = () => {
      validation_functions.resetValidators()
+     this.props.clearData()
      this.setState(({...initialState}))
    }
    OnLoaderOff = () => {
@@ -102,10 +104,14 @@ const initialState = {
     const { token , error  } = this.props
     
     const { email , password , isLoading }  = this.state 
-
+    console.log("disable in final login" , disable )
     return(
            <KeyboardAvoidingView 
       style = {{ flex:1, justifyContent:"center" , alignItems:"center"}} behavior = "padding">
+         <NavigationEvents
+    
+    onWillFocus={() => this.ResetState()}
+    />
              <Image
                       source = {require("../assets/fastening.png")}
                       style = {{
@@ -183,7 +189,8 @@ const initialState = {
 
 const mapDispatchToProps = ( dispatch ) => {
    return({
-     Login:( data ) => dispatch(LoginMiddleware( data )) 
+     Login:( data ) => dispatch(LoginMiddleware( data )) ,
+     clearData : () => dispatch(ClearUserInfo())
    })
 }
 

@@ -16,6 +16,7 @@ const initialUserDataInfo = {
 const SignupInfoReducer  = ( state = { initialUserDataInfo }  , action ) => {
  switch ( action.type)  {
      case actionTypes.USER_INFO : {
+         console.log("action",action)
         return ({
             ...state,
             initialUserDataInfo :{

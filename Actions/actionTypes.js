@@ -12,3 +12,4 @@ export const EDIT_ITEM = "EDIT_ITEM";
 export const USER_INFO = "USER_INFO";
 export const CLEAR_USER_INFO = "CLEAR_USER_INFO";
 export const CLEAR_TOKEN = "CLEAR_TOKEN";
+export const FILL_CART = "FILL_CART";

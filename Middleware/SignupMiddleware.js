@@ -29,6 +29,8 @@ const SignupMiddleware = ( data ) => {
                             else if ( err.response)
                              {
                                 dispatch( SaveError( {message:err.response.data.message}))
+                                validation_functions.resetValidators()
+                                dispatch(ClearUserInfo())
                                 LoaderOff()
                                 navigateToEmailForm()
                              }

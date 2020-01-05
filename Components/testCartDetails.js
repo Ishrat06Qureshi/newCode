@@ -1,43 +1,70 @@
 import React , { Component } from "react";
-import {KeyboardAvoidingView, ScrollView , View, Text, Keyboard , FlatList
+import {KeyboardAvoidingView, ScrollView , View, Text, Keyboard ,
+   FlatList,
+   AsyncStorage
  } from "react-native";
 import { connect } from "react-redux";
-import CustomText from "./CustomText";
+import { NavigationEvents } from 'react-navigation';
 import { Heading_style ,
         enable_Button_Style,enable_Text_Style, 
         centerBoldText
   } from "../Styles";
 import Button from "./Button";
 
-import { NavigationEvents , StackActions, NavigationActions } from 'react-navigation';
+
 import CartItems from "../Components/CartItems";
 import CommentBox from "./CommentBox";
 import SaveCommentAction from "../Actions/SaveComments";
 
 const initialState = {
     
-    comment:""
+    comment:"",
+    
   } 
 
 class CartDetails extends Component {
 
-    state = {...initialState}
+    state = {...initialState ,
+      // items:this.props.items
+    }
 
      handleCommentChange = ( fieldName , value ) => {
         this.setState(({ [fieldName] : value}))
     }
-      Proceed= () => {
-        Keyboard.dismiss()
-        this.props.SaveComment(this.state.comment)
-        this.props.navigation.navigate("Cart")
+    Proceed = async ( ) => {
+      //changed  start
+      Keyboard.dismiss()
+     await AsyncStorage.setItem('cartDetails', JSON.stringify(this.props.items) );
+     this.props.SaveComment(this.state.comment)
+     this.props.navigation.navigate("Cart")
+  
      
-      }
+     
+      //changed  close
+   };
+     
 
+  settingItems = () => {
+    this.setState(({
+      items : this.props.items
+    }))
+  }
+  // componentWillReceiveProps = (nextProps) => {
+    
+  //    this.setState(({
+  //      items:nextProps.items
+  //    }))
+  // }
 
   render() {
     const { items } = this.props
     const { comment } = this.state
+    
       return( <KeyboardAvoidingView behavior = "padding" enabled>
+      {/* <NavigationEvents
+    
+    onWillFocus={() => this.settingItems()}
+    /> */}
             <ScrollView keyboardShouldPersistTaps='always'>
                         <View style= {{ justifyContent:"center", alignItems:"center", marginTop:10,marginBottom:10}} >
                             <Text style = { Heading_style }> Cart Details </Text>

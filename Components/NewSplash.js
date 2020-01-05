@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ImageBackground , Image   , Animated , Easing  
 import { connect } from "react-redux";
 import { AsyncStorage } from "react-native";
 import UserDataAction from "../Actions/UserDataAction";
+import FillCart from "../Actions/fillCartAction"
 class Splash  extends Component {
 
    constructor( props ) {
@@ -14,13 +15,14 @@ class Splash  extends Component {
    bootstrapAsync = async () => {
      //changed data
     const userData = await AsyncStorage.getItem('userData');
-    const ParsedData = JSON.parse(userData)
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    console.log("parsed Data" , ParsedData)
-    ParsedData ? this.props.saveData(ParsedData) : null
-     
-    this.props.navigation.navigate(ParsedData ? ParsedData.token ? 'Home' : 'WelcomeStack' : "WelcomeStack");
+    const cartData = await AsyncStorage.getItem('cartDetails');
+    const ParsedUserData = JSON.parse(userData)
+    const ParsedCartData = JSON.parse(cartData)
+  
+    console.log("parsed Data" ,ParsedCartData)
+    ParsedUserData ? this.props.saveData(ParsedUserData) : null
+    // ParsedCartData ? this.props.fillCart(ParsedCartData) : null
+    this.props.navigation.navigate(ParsedUserData? ParsedUserData.token ? 'Home' : 'WelcomeStack' : "WelcomeStack");
   };
 
    componentDidMount () {
@@ -124,7 +126,9 @@ const mapStateToProps = ( state ) => {
 
 const mapDispatchToProps = ( dispatch ) => {
    return ( {
-     saveData : ( data ) => {  dispatch( UserDataAction.SAVE_USER_DATA_ACTION( data)) }
+     saveData : ( data ) => {  dispatch( UserDataAction.SAVE_USER_DATA_ACTION( data)) },
+     fillCart : ( data ) => {  dispatch( FillCart(data)) }
+
    })
 }
 

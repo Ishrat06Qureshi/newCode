@@ -2,9 +2,7 @@ import * as React from 'react';
 import { ScrollView,
   View, KeyboardAvoidingView , Image, Text , TouchableOpacity} from 'react-native';
 import axios from "axios";
-
-
-
+import { NavigationEvents } from 'react-navigation';
 import  Input from "./Input";
 import Button from "./Button"
 import { disable_Button_Style , disable_Text_Style , enable_Button_Style , enable_Text_Style} 
@@ -26,7 +24,14 @@ class CompanyDetailsForm extends React.Component {
  handleInputChange = ( fieldName , value) => {
   this.setState(({ [fieldName] : value}))
   validation_functions.updateValidators( fieldName , value )}
-
+ 
+  SettingState = () => {
+    this.setState(({
+      contactPersonName: this.props.contactPersonName,
+    companyName:this.props.companyName,
+    phoneNumber:this.props.phoneNumber
+     }))
+   }
 
   handleNext = () => {
     const data = {
@@ -99,6 +104,11 @@ render() {
      const disable = validation_functions.isFormValid(["companyName","contactPersonName","phoneNumber" ])
     return ( <KeyboardAvoidingView 
     style = {{ flex:1, justifyContent:"center" , alignItems:"center"}} behavior = "padding">
+
+<NavigationEvents
+    
+    onWillFocus={() => this.SettingState()}
+    />
            <Image
                     source = {require("../assets/fastening.png")}
                     style = {{
@@ -161,7 +171,7 @@ render() {
 
 
   const mapStateToProps = ( state ) => {
-    console.log(state)
+    
   
     return (
           data = {

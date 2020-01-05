@@ -8,16 +8,18 @@ const initialOrderState = {
 }
 const orderReducer = ( state = initialOrderState, action ) => {
  switch(action.type) {
+     
      case actionTypes.SAVE_ITEMS : {
-         
+         console.log("item product code" ,action.item.productCode )
          let alreadyExist = state.items.find( item => item.productCode === action.item.productCode)
-
+          
          if( alreadyExist ) {
              newArray = state.items.filter( item => item.productCode !== action.item.productCode)
             
              alreadyExist.quantity = parseInt(alreadyExist.quantity) + parseInt(action.item.quantity)
-             newArray.push(alreadyExist)
-          
+           
+             newArray = [...newArray , alreadyExist]
+           
              return({
                  ...state,
                  items:[...newArray]
@@ -67,6 +69,12 @@ const orderReducer = ( state = initialOrderState, action ) => {
             
             ) 
            
+        })
+    }
+    case actionTypes.FILL_CART : {
+        return({
+            ...state,
+            items: [...action.items]
         })
     }
      default:

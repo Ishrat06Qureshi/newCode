@@ -40,14 +40,14 @@ const  initialState = {
       
 
       handleSave = ( productCode, quantity  , uom , image , description ) => {
-
+        
         const { closeModal } = this.props
         Keyboard.dismiss()
          this.setState(({...initialState}) , ()=> {
            validation_functions.resetValidators()
            closeModal()
          })
-         
+         console.log("quantity" , quantity)
         this.props.saveItem({productCode, quantity , UOM:uom , image , description})
       }
     render() {
@@ -93,6 +93,7 @@ const  initialState = {
                onChangeText= { this.handleInputChange}
                errorName = "quantity" 
                keyBoardType = "phone-pad"
+               value = { quantity }
                /> 
                </ScrollView>
                <View style = {{ justifyContent : "flex-end"}}>
@@ -129,7 +130,7 @@ const mapDispatchToProps = ( dispatch ) => {
  }
  
  const mapStateToProps = ( state ) => {
-   console.log("state" , state )
+  
    return({
      token: state.tokenReducer.token,
      items:state.orderReducer.items

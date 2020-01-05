@@ -5,7 +5,7 @@ import { ScrollView,
 import axios from "axios";
 
 
-
+import { NavigationEvents } from 'react-navigation';
 import { Spinner } from "native-base"
 
 import  Input from "./Input";
@@ -40,6 +40,15 @@ LoaderOff = () => {
     loading:true
   })
 }
+
+
+SettingState = () => {
+  this.setState(({
+    contactPersonName: this.props.contactPersonName,
+  companyName:this.props.companyName,
+  phoneNumber:this.props.phoneNumber
+   }))
+ }
  handleInputChange = ( fieldName , value) => {
   this.setState(({ [fieldName] : value}))
   validation_functions.updateValidators( fieldName , value )}
@@ -149,6 +158,10 @@ render() {
     return ( 
     <KeyboardAvoidingView 
     style = {{ flex:1, justifyContent:"center" , alignItems:"center"}} behavior = "padding">
+      <NavigationEvents
+    
+    onWillFocus={() => this.SettingState()}
+    />
            <Image
                     source = {require("../assets/fastening.png")}
                     style = {{
@@ -227,7 +240,7 @@ render() {
 }
 
 const mapStateToProps = ( state ) => {
-  console.log(state)
+  
 
   return (
         data = state.SignupInfoReducer.initialUserDataInfo
